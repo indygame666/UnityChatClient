@@ -112,14 +112,18 @@ public class ClientMessageManager : MonoBehaviour
 
     public void SendChatMessage()
     {
-        using (Packet _packet = new Packet((int)ClientPackets.chatMessage))
+        if (_messageTextInputField.text.Length>0)
         {
-            _packet.Write(LocalClient._singleton._nickname);
-            _packet.Write(LocalClient._singleton._colorID);
-            _packet.Write(ClientMessageManager._singleton._messageTextInputField.text);
+            using (Packet _packet = new Packet((int)ClientPackets.chatMessage))
+            {
+                _packet.Write(LocalClient._singleton._nickname);
+                _packet.Write(LocalClient._singleton._colorID);
+                _packet.Write(ClientMessageManager._singleton._messageTextInputField.text);
 
-            SendTCPData(_packet);
+                SendTCPData(_packet);
+            }
         }
+        _messageTextInputField.text = "";
     }
     #endregion
 
